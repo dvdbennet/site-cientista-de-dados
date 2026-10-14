@@ -5,7 +5,8 @@
  */
 export const site = {
   name: 'Felipe Fuck',
-  email: 'contato@felipefuck.com', // TODO: e-mail real
+  /** Recebe o formulário e todos os botões/links de e-mail do site. */
+  email: 'felipeffullana@gmail.com',
   /** Só números, com DDI + DDD. Ex.: 5511999999999 */
   whatsapp: '5561982800038',
   whatsappMessage: 'Olá Felipe! Vim pelo site e quero conversar sobre um projeto de dados.',
@@ -21,6 +22,13 @@ export const env = {
   gtmId: import.meta.env.VITE_GTM_ID as string | undefined,
   formEndpoint: import.meta.env.VITE_FORM_ENDPOINT as string | undefined,
 };
+
+/**
+ * Para onde o formulário é enviado.
+ * Padrão: FormSubmit (grátis, sem cadastro) entrega no e-mail acima.
+ * Se VITE_FORM_ENDPOINT estiver definido (ex.: Formspree), ele tem prioridade.
+ */
+export const formEndpoint = () => env.formEndpoint || `https://formsubmit.co/ajax/${site.email}`;
 
 export const whatsappUrl = () =>
   site.whatsapp

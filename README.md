@@ -16,7 +16,7 @@ Conceito visual: **"Do ruído ao sinal"** — no topo da página, uma nuvem 3D d
 5. [Gerar a versão final (build)](#5-gerar-a-versão-final-build)
 6. [Estrutura de pastas](#6-estrutura-de-pastas)
 7. [Onde editar o conteúdo](#7-onde-editar-o-conteúdo)
-8. [Configurações opcionais (.env)](#8-configurações-opcionais-env)
+8. [Formulário de contato e configurações (.env)](#8-formulário-de-contato-e-configurações-opcionais-env)
 9. [Publicar na internet (Vercel)](#9-publicar-na-internet-vercel)
 10. [Problemas comuns](#10-problemas-comuns)
 
@@ -244,7 +244,7 @@ site-cientista-de-dados/
 
 | Quero mudar… | Arquivo |
 |---|---|
-| E-mail, WhatsApp, link da agenda, LinkedIn/GitHub/Kaggle | `src/config.ts` |
+| E-mail (recebe o formulário e todos os links de e-mail), WhatsApp, agenda, LinkedIn/GitHub/Kaggle | `src/config.ts` |
 | Textos, serviços, cases, preços, FAQ, depoimentos | `index.html` (procure os trechos entre `[colchetes]`) |
 | Números da faixa de prova (contadores animados) | `index.html` → preencha `data-count="42"` **e** o texto `42` |
 | Cores, fontes, espaçamentos | `src/styles/main.css` → bloco `:root` no topo |
@@ -256,9 +256,21 @@ site-cientista-de-dados/
 
 ---
 
-## 8. Configurações opcionais (.env)
+## 8. Formulário de contato e configurações opcionais (.env)
 
-Funciona sem nada configurado. Para ativar tracking e envio real do formulário, copie o modelo:
+### 8.1 Para onde vão as mensagens do formulário
+
+Por padrão, o formulário envia pelo **[FormSubmit](https://formsubmit.co)** (grátis, sem cadastro) direto para o e-mail definido em `src/config.ts` (atualmente **felipeffullana@gmail.com**). Depois de enviar, o visitante vai para `/obrigado.html`.
+
+> **Ativação única (obrigatória):** no **primeiro** envio feito pelo site, o FormSubmit manda um e-mail de confirmação para esse endereço. Abra-o e clique em **"Activate Form"**. Só depois disso as mensagens começam a chegar. Enquanto não for ativado (ou se o serviço estiver fora do ar), o formulário abre o programa de e-mail do visitante já preenchido, para a mensagem não se perder.
+
+O e-mail recebido vem com assunto "Novo contato pelo site — [nome]" e, ao clicar em **Responder**, a resposta vai direto para o visitante.
+
+Para trocar o endereço, edite `email` em `src/config.ts` (e faça a ativação de novo para o endereço novo).
+
+### 8.2 Configurações opcionais (.env)
+
+Funciona sem nada configurado. Para ativar tracking ou usar outro serviço de formulário, copie o modelo:
 
 ```bash
 cp .env.example .env.local
@@ -271,9 +283,7 @@ E preencha em `.env.local`:
 | Variável | O que faz | Onde conseguir |
 |---|---|---|
 | `VITE_GTM_ID` | Ativa o Google Tag Manager (GA4, pixels etc.) | <https://tagmanager.google.com> |
-| `VITE_FORM_ENDPOINT` | Envia o formulário para esse endpoint e redireciona para `/obrigado.html` | Crie um formulário grátis em <https://formspree.io> e copie a URL `https://formspree.io/f/…` |
-
-Sem `VITE_FORM_ENDPOINT`, o formulário abre o programa de e-mail do visitante com a mensagem preenchida.
+| `VITE_FORM_ENDPOINT` | (Opcional) Substitui o FormSubmit por outro serviço, ex.: Formspree | Crie um formulário em <https://formspree.io> e copie a URL `https://formspree.io/f/…` |
 
 **Agenda online:** crie uma conta em <https://cal.com>, crie um evento (ex.: "Diagnóstico 30 min") e coloque `usuario/evento` em `calLink` no `src/config.ts`.
 
@@ -306,6 +316,7 @@ A cada `git push`, a Vercel publica a nova versão automaticamente.
 | Aviso `npm warn install-scripts …` no `npm install` | É só informativo (npm 11+). O projeto não depende de scripts de instalação — pode ignorar. |
 | O 3D não aparece (só um degradê) | O navegador está sem WebGL. Ative "aceleração de hardware" nas configurações do navegador ou teste em outro navegador. O resto do site funciona normalmente. |
 | As animações não aparecem | O sistema está com **"Reduzir movimento"** ativado (acessibilidade). Nesse modo o site mostra tudo estático de propósito. |
+| Mensagens do formulário não chegam no e-mail | Faça a ativação do FormSubmit (seção 8.1) e confira a caixa de spam. |
 | Mudei o `.env.local` e nada aconteceu | Pare (`Ctrl + C`) e rode `npm run dev` de novo. |
 | Abri o `index.html` com dois cliques e ficou tudo quebrado | O site precisa do Vite para rodar. Use `npm run dev` (passo 4). Só o `docs/esboco.html` abre direto. |
 

@@ -1,4 +1,4 @@
-import { env, site } from '../config';
+import { formEndpoint, site } from '../config';
 import { track } from '../lib/track';
 
 /** Agenda do Cal.com (carregada só quando chega perto da tela). */
@@ -48,28 +48,38 @@ export function initLeadForm() {
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
     status.classList.remove('err');
 
-    if (!env.formEndpoint) {
-      const body = `Nome: ${data.nome}\nEmpresa: ${data.empresa || '-'}\n\n${data.decisao}`;
+    // honeypot anti-spam: robôs preenchem o campo invisível
+    if (data._honey) return;
+    delete data._honey;
+
+    const mailtoFallback = () => {
+      const body = `Nome: ${data.nome}\nE-mail: ${data.email}\nEmpresa: ${data.empresa || '-'}\n\n${data.decisao}`;
       location.href = `mailto:${site.email}?subject=${encodeURIComponent('Projeto de dados — ' + data.nome)}&body=${encodeURIComponent(body)}`;
       track('form_submit', { method: 'mailto' });
-      return;
-    }
+    };
 
     button.disabled = true;
     status.textContent = 'Enviando…';
     try {
-      const res = await fetch(env.formEndpoint, {
+      const res = await fetch(formEndpoint(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          _subject: `Novo contato pelo site — ${data.nome}`,
+          _replyto: data.email,
+          _template: 'table',
+        }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      const json = (await res.json().catch(() => ({}))) as { success?: boolean | string };
+      if (!res.ok || json.success === false || json.success === 'false') throw new Error(String(res.status));
       track('form_submit', { method: 'endpoint' });
       location.href = '/obrigado.html';
     } catch {
-      status.textContent = `Não foi possível enviar agora. Escreva para ${site.email}.`;
-      status.classList.add('err');
+      // serviço fora do ar ou ainda não ativado: abre o e-mail do visitante já preenchido
+      status.textContent = 'Abrindo seu e-mail para concluir o envio…';
       button.disabled = false;
+      mailtoFallback();
     }
   });
 }

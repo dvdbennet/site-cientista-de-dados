@@ -342,6 +342,8 @@
 
           <form class="form" id="leadForm" novalidate>
             <h3>Prefere escrever?</h3>
+            <!-- anti-spam: campo invisível para pessoas -->
+            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
             <label>Nome<input name="nome" autocomplete="name" required></label>
             <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
             <label>Empresa<input name="empresa" autocomplete="organization"></label>
