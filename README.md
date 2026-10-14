@@ -303,6 +303,7 @@ A cada `git push`, a Vercel publica a nova versão automaticamente.
 | `Vite requires Node.js version 20.19+ or 22.12+` | Seu Node é antigo. Atualize para o 22 LTS (passo 1.1). Com nvm: `nvm install 22 && nvm use 22`. |
 | `Port 5173 is in use` | Já tem outro servidor rodando. Feche o outro terminal (`Ctrl + C`) ou rode `npm run dev -- --port 5174`. |
 | `npm install` falha com erro de rede/permissão | Verifique a internet. Nunca use `sudo npm install`. No Windows, rode o terminal fora de pastas protegidas (ex.: use `Documentos` ou `Área de Trabalho`). |
+| Aviso `npm warn install-scripts …` no `npm install` | É só informativo (npm 11+). O projeto não depende de scripts de instalação — pode ignorar. |
 | O 3D não aparece (só um degradê) | O navegador está sem WebGL. Ative "aceleração de hardware" nas configurações do navegador ou teste em outro navegador. O resto do site funciona normalmente. |
 | As animações não aparecem | O sistema está com **"Reduzir movimento"** ativado (acessibilidade). Nesse modo o site mostra tudo estático de propósito. |
 | Mudei o `.env.local` e nada aconteceu | Pare (`Ctrl + C`) e rode `npm run dev` de novo. |
