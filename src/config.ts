@@ -7,7 +7,7 @@ export const site = {
   name: 'Felipe Fuck',
   email: 'contato@felipefuck.com', // TODO: e-mail real
   /** Só números, com DDI + DDD. Ex.: 5511999999999 */
-  whatsapp: '', // TODO: número real
+  whatsapp: '5561982800038',
   whatsappMessage: 'Olá Felipe! Vim pelo site e quero conversar sobre um projeto de dados.',
   /** Usuário/evento do Cal.com. Ex.: 'felipefuck/diagnostico'. Vazio = mostra botão de e-mail. */
   calLink: '', // TODO: link do Cal.com
