@@ -38,11 +38,7 @@ if (canvas) {
 initLeadForm();
 initCalendar();
 
-if (reducedMotion) {
-  document.querySelectorAll('.case').forEach((c) => c.classList.add('active'));
-} else {
-  initCases();
-  initProcessLine();
-}
+initCases({ parallax: !reducedMotion });
+if (!reducedMotion) initProcessLine();
 
 void initRevealsWhenReady().then(() => ScrollTrigger.refresh());

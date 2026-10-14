@@ -208,10 +208,13 @@ h3 { font-family: var(--f-display); letter-spacing: -0.02em; }
 .track-ctrl { display: none; gap: 8px; }
 @media (min-width: 960px) { .track-ctrl { display: flex; } }
 .cases-track {
-  display: flex; gap: 14px; margin-top: 48px; padding-bottom: 12px;
+  position: relative; /* offsetLeft dos cards relativo à própria faixa */
+  display: flex; cursor: grab; user-select: none; gap: 14px; margin-top: 48px; padding-bottom: 12px;
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
 }
 .cases-track::-webkit-scrollbar { display: none; }
+.cases-track.dragging { cursor: grabbing; }
+.cases-track.dragging a { pointer-events: none; }
 .case { flex: 0 0 86%; scroll-snap-align: start; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: var(--surface); transition: opacity 0.5s, transform 0.6s var(--ease), border-color 0.4s; }
 .case:not(.active) { opacity: 0.45; transform: scale(0.97); }
 .case:hover { border-color: var(--line-2); }
