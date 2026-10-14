@@ -2,7 +2,7 @@
 
 > Plano de produto, UX, direção de arte e engenharia · v0.2 · 2026-10-14
 > **Foco definido: consultoria e projetos freelance (B2B).**
-> Esboço navegável: [esboco.html](esboco.html)
+> Esboço navegável: [esboco.html](esboco.html) · Site: raiz do repositório (ver README.md)
 
 ---
 
@@ -215,4 +215,5 @@ GA4 (ou Plausible) via GTM — eventos: `cta_click` (com `section`), `calendar_o
 
 - ✅ Plano v0.2 e esboço navegável aprovados; foco em consultoria/freelance.
 - ✅ Correções no contador do hero (palavras empilhadas e cortadas).
-- ⏭️ **Retomar por:** responder §12 (itens 2–5) → coletar conteúdo do §10 → iniciar a fase 2 (build).
+- ✅ Fase 2 (build) iniciada: site em Vite + TS + Three.js (shader na GPU) + GSAP + Lenis, com Home, modelo de case, /obrigado, formulário, Cal.com e tracking — tudo com placeholders.
+- ⏭️ **Retomar por:** responder §12 (itens 2–5) → preencher conteúdo real (§10) em `index.html` e `src/config.ts` → deploy na Vercel.
