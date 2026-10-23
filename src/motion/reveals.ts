@@ -73,18 +73,28 @@ function restore(el: HTMLElement) {
 
 export function initReveals() {
   // Títulos de seção revelados por linha
-  document.querySelectorAll<HTMLElement>('.split-lines').forEach((h) => {
-    splitLines(h);
-    const spans = h.querySelectorAll('.line > span');
-    gsap.set(spans, { y: 0, yPercent: 105 });
-    ScrollTrigger.create({
-      trigger: h,
-      start: 'top 85%',
-      once: true,
-      onEnter: () =>
-        gsap.to(spans, { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.08, onComplete: () => restore(h) }),
+  // Só quebra em linhas quando o título se aproxima da tela (evita medir todas as palavras no carregamento)
+  const titles = [...document.querySelectorAll<HTMLElement>('.split-lines')];
+  titles.forEach((h) => h.classList.add('pre-split'));
+  const splitIO = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting) return;
+      splitIO.unobserve(target);
+      const h = target as HTMLElement;
+      splitLines(h);
+      h.classList.remove('pre-split');
+      const spans = h.querySelectorAll('.line > span');
+      gsap.set(spans, { y: 0, yPercent: 105 });
+      ScrollTrigger.create({
+        trigger: h,
+        start: 'top 88%',
+        once: true,
+        onEnter: () =>
+          gsap.to(spans, { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.08, onComplete: () => restore(h) }),
+      });
     });
-  });
+  }, { rootMargin: '0px 0px 300px 0px' });
+  titles.forEach((h) => splitIO.observe(h));
 
   // Blocos genéricos
   ScrollTrigger.batch('[data-reveal]', {
@@ -107,6 +117,12 @@ export function initReveals() {
       // devolve o tracejado original (ex.: linha de previsão) ao terminar
       onComplete: () => { if (dashed) gsap.set(path, { strokeDasharray: dashed, strokeDashoffset: 0 }); },
     });
+  });
+
+  // Elementos de gráfico que só aparecem (áreas, marcadores)
+  document.querySelectorAll<SVGElement>('svg .fade-in').forEach((el) => {
+    gsap.set(el, { opacity: 0 });
+    gsap.to(el, { opacity: 1, duration: 1, delay: 1.2, ease: 'power2.out', scrollTrigger: { trigger: el.closest('svg'), start: 'top 85%', once: true } });
   });
 
   // Barras que crescem

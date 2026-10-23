@@ -37,9 +37,34 @@
           <li><a href="#sobre">Sobre</a></li>
         </ul>
       </nav>
-      <a href="#contato" class="btn btn-primary btn-sm nav-cta" data-track="cta_click" data-section="header">Agendar diagnóstico</a>
+      <div class="nav-right">
+        <a href="#contato" class="btn btn-primary btn-sm nav-cta" data-track="cta_click" data-section="header">Agendar diagnóstico</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
+    <div class="read-progress" aria-hidden="true"><i id="readBar"></i></div>
   </header>
+
+  <!-- Menu mobile (fora do header para não herdar contexto de position:fixed) -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <nav aria-label="Menu mobile">
+      <ol>
+        <li><a href="#servicos"><span>01</span>Serviços</a></li>
+        <li><a href="#cases"><span>02</span>Cases</a></li>
+        <li><a href="#processo"><span>03</span>Processo</a></li>
+        <li><a href="#formatos"><span>04</span>Formatos</a></li>
+        <li><a href="#diagnostico"><span>05</span>Diagnóstico rápido</a></li>
+        <li><a href="#sobre"><span>06</span>Sobre</a></li>
+        <li><a href="#contato"><span>07</span>Contato</a></li>
+      </ol>
+    </nav>
+    <div class="mobile-menu-foot">
+      <a href="#contato" class="btn btn-primary" data-track="cta_click" data-section="menu_mobile">Agendar diagnóstico gratuito</a>
+      <a href="#" class="btn btn-ghost" data-link="whatsapp" data-track="whatsapp_click" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
 
   <main id="top">
     <!-- 01 · HERO -->
@@ -55,15 +80,23 @@
         </div>
 
         <div class="wrap hero-copy" id="conteudo">
-          <p class="eyebrow">Consultor independente · Ciência de Dados · ML</p>
+          <div class="hero-who" data-intro>
+            <!-- Troque pelo retrato: <img class="avatar" src="/felipe-avatar.webp" alt="" width="96" height="96"> -->
+            <span class="avatar" aria-hidden="true">FF</span>
+            <div>
+              <p class="who-name">Felipe Fuck <span>· Cientista de Dados</span></p>
+              <p class="avail"><i aria-hidden="true"></i><span data-availability>Disponível para novos projetos</span></p>
+            </div>
+          </div>
           <h1 class="split">
             <span class="line"><span>Do ruído</span></span>
             <span class="line"><span>ao <em>sinal</em>.</span></span>
           </h1>
-          <p class="hero-sub" data-intro>Transformo dados bagunçados em decisões que dão lucro. Previsão, modelos e dashboards para empresas que querem decidir com números — sem precisar montar um time de dados.</p>
+          <p class="hero-what" data-intro>Previsão, machine learning e dashboards para empresas decidirem com números.</p>
+          <p class="hero-sub" data-intro>Consultor independente — sem precisar montar um time de dados. Primeiro diagnóstico gratuito, em 30 minutos.</p>
           <div class="ctas" data-intro>
             <a href="#contato" class="btn btn-primary magnetic" data-track="cta_click" data-section="hero">Agendar diagnóstico gratuito <span aria-hidden="true">→</span></a>
-            <a href="#cases" class="btn btn-ghost">Ver cases</a>
+            <a href="#diagnostico" class="btn btn-ghost" data-track="quiz_open" data-section="hero">Qual formato é pra mim?</a>
           </div>
         </div>
         <div class="scroll-hint" aria-hidden="true">ROLE <span>↓</span></div>
@@ -190,6 +223,12 @@
           <article class="case">
             <a href="/cases/exemplo.html" data-track="case_open" data-case="previsao-demanda">
               <div class="case-media"><div class="case-img" style="--hue:160"></div>
+                <svg class="case-chart" viewBox="0 0 400 250" role="img" aria-label="Gráfico: ruptura de estoque antes e depois do modelo">
+                  <g stroke="rgba(255,255,255,.06)"><line x1="24" y1="60" x2="376" y2="60"/><line x1="24" y1="120" x2="376" y2="120"/><line x1="24" y1="180" x2="376" y2="180"/></g>
+                  <path class="draw" d="M24 110 L68 70 L112 130 L156 60 L200 120 L244 75 L288 135 L332 80 L376 115" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 6" opacity=".7"/>
+                  <path class="draw draw-late" d="M24 170 L68 165 L112 172 L156 160 L200 166 L244 158 L288 162 L332 155 L376 158" fill="none" stroke="var(--signal)" stroke-width="2.5"/>
+                  <g font-family="JetBrains Mono Variable" font-size="10"><text x="24" y="40" fill="var(--muted)">antes</text><text x="300" y="148" fill="var(--signal)">depois</text></g>
+                </svg>
                 <div class="case-metric"><b>[−X%]</b><span>ruptura de estoque</span></div></div>
               <div class="case-body"><div><p class="case-meta">[Setor] · [Ano]</p><h3>Previsão de demanda para [cliente]</h3></div><span class="round" aria-hidden="true">↗</span></div>
             </a>
@@ -197,6 +236,15 @@
           <article class="case">
             <a href="/cases/exemplo.html" data-track="case_open" data-case="churn">
               <div class="case-media"><div class="case-img" style="--hue:228"></div>
+                <svg class="case-chart" viewBox="0 0 400 250" role="img" aria-label="Gráfico: retenção de clientes subindo">
+                  <defs><linearGradient id="gRet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E8BFF" stop-opacity=".45"/><stop offset="1" stop-color="#6E8BFF" stop-opacity="0"/></linearGradient></defs>
+                  <g stroke="rgba(255,255,255,.06)"><line x1="24" y1="60" x2="376" y2="60"/><line x1="24" y1="120" x2="376" y2="120"/><line x1="24" y1="180" x2="376" y2="180"/></g>
+                  <path class="fade-in" d="M24 180 C90 175 140 160 200 130 S320 70 376 55 L376 210 L24 210 Z" fill="url(#gRet)"/>
+                  <path class="draw" d="M24 180 C90 175 140 160 200 130 S320 70 376 55" fill="none" stroke="var(--data)" stroke-width="2.5"/>
+                  <circle class="fade-in" cx="376" cy="55" r="5" fill="var(--signal)"/>
+                  <line x1="200" y1="40" x2="200" y2="210" stroke="var(--line-2)" stroke-dasharray="3 5"/>
+                  <text x="206" y="50" font-family="JetBrains Mono Variable" font-size="10" fill="var(--muted)">modelo no ar</text>
+                </svg>
                 <div class="case-metric"><b>[+X%]</b><span>retenção</span></div></div>
               <div class="case-body"><div><p class="case-meta">[Setor] · [Ano]</p><h3>Modelo de churn para [cliente]</h3></div><span class="round" aria-hidden="true">↗</span></div>
             </a>
@@ -204,6 +252,16 @@
           <article class="case">
             <a href="/cases/exemplo.html" data-track="case_open" data-case="automacao">
               <div class="case-media"><div class="case-img" style="--hue:30"></div>
+                <svg class="case-chart" viewBox="0 0 400 250" role="img" aria-label="Gráfico: horas gastas com relatórios caindo">
+                  <line x1="24" y1="210" x2="376" y2="210" stroke="var(--line-2)"/>
+                  <g fill="var(--muted)" opacity=".55">
+                    <rect class="bar" x="40" y="70" width="36" height="140" rx="5"/><rect class="bar" x="96" y="60" width="36" height="150" rx="5"/><rect class="bar" x="152" y="76" width="36" height="134" rx="5"/>
+                  </g>
+                  <g fill="var(--warm)">
+                    <rect class="bar" x="228" y="168" width="36" height="42" rx="5"/><rect class="bar" x="284" y="176" width="36" height="34" rx="5"/><rect class="bar" x="340" y="180" width="36" height="30" rx="5"/>
+                  </g>
+                  <g font-family="JetBrains Mono Variable" font-size="10"><text x="40" y="44" fill="var(--muted)">horas/mês · antes</text><text x="228" y="150" fill="var(--warm)">depois</text></g>
+                </svg>
                 <div class="case-metric"><b>[Xh]</b><span>economizadas / mês</span></div></div>
               <div class="case-body"><div><p class="case-meta">[Setor] · [Ano]</p><h3>Automação de relatórios para [cliente]</h3></div><span class="round" aria-hidden="true">↗</span></div>
             </a>
@@ -218,13 +276,63 @@
         <p class="kicker"><b>// 04</b> — Processo</p>
         <h2 id="t-proc" class="split-lines">Do primeiro papo ao modelo <em>em produção</em>.</h2>
         <div class="proc" id="proc">
-          <span class="proc-line" aria-hidden="true"></span>
-          <ol class="steps">
-          <li class="step"><span class="n">01 · semana 1</span><h3>Diagnóstico</h3><p>Entendo a decisão que importa e se os dados permitem melhorá-la.</p></li>
-          <li class="step"><span class="n">02 · semanas 2–3</span><h3>Dados</h3><p>Limpeza, integração e uma base confiável.</p></li>
-          <li class="step"><span class="n">03 · semanas 3–5</span><h3>Modelo</h3><p>Prototipo, valido contra o mundo real e explico o porquê.</p></li>
-          <li class="step"><span class="n">04 · contínuo</span><h3>Entrega</h3><p>Em produção, com painel, documentação e acompanhamento.</p></li>
-          </ol>
+          <div class="proc-viz" aria-hidden="true">
+            <div class="proc-stage">
+              <span class="proc-tag" id="procTag">01 · Diagnóstico</span>
+              <!-- 01 Diagnóstico: alvo -->
+              <svg class="pv is-active" data-i="0" viewBox="0 0 400 260">
+                <g fill="none" stroke-width="1.5">
+                  <circle data-draw cx="200" cy="130" r="92" stroke="var(--line-2)"/>
+                  <circle data-draw cx="200" cy="130" r="62" stroke="var(--data)"/>
+                  <circle data-draw cx="200" cy="130" r="32" stroke="var(--signal)"/>
+                  <path data-draw d="M200 20 V80 M200 180 V240 M90 130 H150 M250 130 H310" stroke="var(--muted)"/>
+                </g>
+                <circle data-pop cx="200" cy="130" r="7" fill="var(--signal)"/>
+                <g font-family="JetBrains Mono Variable" font-size="11" fill="var(--muted)"><text x="268" y="62" data-pop>decisão-alvo</text><text x="40" y="226" data-pop>R$ em jogo?</text></g>
+              </svg>
+              <!-- 02 Dados: fontes bagunçadas → tabela única -->
+              <svg class="pv" data-i="1" viewBox="0 0 400 260">
+                <g fill="var(--surface)" stroke="var(--line-2)">
+                  <rect data-pop x="20" y="30" width="80" height="44" rx="8"/><rect data-pop x="36" y="108" width="80" height="44" rx="8"/><rect data-pop x="14" y="186" width="80" height="44" rx="8"/>
+                </g>
+                <g font-family="JetBrains Mono Variable" font-size="10" fill="var(--muted)"><text x="34" y="56" data-pop>xlsx</text><text x="52" y="134" data-pop>ERP</text><text x="28" y="212" data-pop>csv</text></g>
+                <g fill="none" stroke="var(--data)" stroke-width="1.5">
+                  <path data-draw d="M100 52 C170 52 170 120 230 120"/><path data-draw d="M116 130 H230"/><path data-draw d="M94 208 C170 208 170 140 230 140"/>
+                </g>
+                <rect data-pop x="230" y="70" width="150" height="120" rx="12" fill="var(--surface)" stroke="var(--signal)"/>
+                <g stroke="var(--line-2)"><path data-draw d="M230 100 H380 M230 130 H380 M230 160 H380 M280 70 V190 M330 70 V190"/></g>
+                <text x="238" y="90" font-family="JetBrains Mono Variable" font-size="10" fill="var(--signal)" data-pop>base única</text>
+              </svg>
+              <!-- 03 Modelo: dispersão + curva ajustada -->
+              <svg class="pv" data-i="2" viewBox="0 0 400 260">
+                <g stroke="var(--line-2)"><line x1="30" y1="230" x2="380" y2="230"/><line x1="30" y1="20" x2="30" y2="230"/></g>
+                <g fill="var(--data)">
+                  <circle data-pop cx="60" cy="200" r="4"/><circle data-pop cx="85" cy="185" r="4"/><circle data-pop cx="110" cy="190" r="4"/><circle data-pop cx="135" cy="160" r="4"/><circle data-pop cx="160" cy="150" r="4"/>
+                  <circle data-pop cx="185" cy="140" r="4"/><circle data-pop cx="210" cy="118" r="4"/><circle data-pop cx="235" cy="120" r="4"/><circle data-pop cx="260" cy="95" r="4"/><circle data-pop cx="285" cy="88" r="4"/>
+                  <circle data-pop cx="310" cy="70" r="4"/><circle data-pop cx="335" cy="66" r="4"/><circle data-pop cx="360" cy="48" r="4"/>
+                </g>
+                <path data-draw d="M40 210 C140 180 240 110 370 40" fill="none" stroke="var(--signal)" stroke-width="2.5"/>
+                <text x="250" y="200" font-family="JetBrains Mono Variable" font-size="11" fill="var(--muted)" data-pop>R² validado ✓</text>
+              </svg>
+              <!-- 04 Entrega: painel -->
+              <svg class="pv" data-i="3" viewBox="0 0 400 260">
+                <rect data-pop x="20" y="20" width="360" height="220" rx="14" fill="var(--surface)" stroke="var(--line-2)"/>
+                <g fill="none" stroke="var(--line-2)"><rect data-pop x="40" y="44" width="96" height="60" rx="8"/><rect data-pop x="152" y="44" width="96" height="60" rx="8"/><rect data-pop x="264" y="44" width="96" height="60" rx="8"/></g>
+                <g font-family="Inter Tight Variable" font-weight="600" font-size="15"><text x="52" y="82" fill="var(--signal)" data-pop>↑ vendas</text><text x="164" y="82" fill="var(--text)" data-pop>✓ meta</text><text x="276" y="82" fill="var(--warm)" data-pop>↓ custo</text></g>
+                <path data-draw d="M40 210 L90 190 L140 196 L190 168 L240 172 L290 140 L340 132 L360 124" fill="none" stroke="var(--data)" stroke-width="2"/>
+                <text x="40" y="132" font-family="JetBrains Mono Variable" font-size="10" fill="var(--muted)" data-pop>painel em produção · atualizado hoje</text>
+              </svg>
+            </div>
+          </div>
+          <div class="proc-steps">
+            <span class="proc-line" aria-hidden="true"></span>
+            <ol class="steps">
+              <li class="step is-active"><span class="n">01 · semana 1</span><h3>Diagnóstico</h3><p>Entendo a decisão que importa, quanto dinheiro está em jogo e se os dados permitem melhorá-la.</p></li>
+              <li class="step"><span class="n">02 · semanas 2–3</span><h3>Dados</h3><p>Junto planilhas, sistemas e arquivos numa base única, limpa e confiável.</p></li>
+              <li class="step"><span class="n">03 · semanas 3–5</span><h3>Modelo</h3><p>Prototipo, valido contra o mundo real e explico o porquê de cada previsão.</p></li>
+              <li class="step"><span class="n">04 · contínuo</span><h3>Entrega</h3><p>Em produção, com painel, documentação e acompanhamento — o time usa no dia seguinte.</p></li>
+            </ol>
+          </div>
         </div>
       </div>
     </section>
@@ -262,11 +370,71 @@
       </div>
     </section>
 
+    <!-- 07b · DIAGNÓSTICO RÁPIDO -->
+    <section class="block quiz-block" id="diagnostico" aria-labelledby="t-quiz">
+      <div class="wrap quiz-wrap">
+        <div>
+          <p class="kicker"><b>// 06</b> — Diagnóstico rápido</p>
+          <h2 id="t-quiz" class="split-lines">Três perguntas. <em>Um caminho</em>.</h2>
+          <p class="lead" data-reveal>Responda em 20 segundos e veja qual formato faz mais sentido para o seu momento. As respostas já seguem junto quando você agendar.</p>
+        </div>
+
+        <form class="quiz" id="quiz" data-reveal novalidate>
+          <div class="quiz-top">
+            <span class="quiz-count" id="quizCount">1 / 3</span>
+            <div class="quiz-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+          </div>
+
+          <fieldset class="quiz-step is-current" data-step="0">
+            <legend>O que você quer resolver?</legend>
+            <label class="opt"><input type="radio" name="goal" value="prever"><span><b>Prever</b> demanda, vendas ou estoque</span></label>
+            <label class="opt"><input type="radio" name="goal" value="clientes"><span><b>Entender clientes</b> — churn, segmentação, LTV</span></label>
+            <label class="opt"><input type="radio" name="goal" value="organizar"><span><b>Organizar</b> dados e relatórios</span></label>
+            <label class="opt"><input type="radio" name="goal" value="explorar"><span><b>Ainda não sei</b> — quero descobrir</span></label>
+          </fieldset>
+
+          <fieldset class="quiz-step" data-step="1" hidden>
+            <legend>Como estão seus dados hoje?</legend>
+            <label class="opt"><input type="radio" name="data" value="planilhas"><span><b>Planilhas</b> espalhadas</span></label>
+            <label class="opt"><input type="radio" name="data" value="sistema"><span><b>Sistema/ERP</b> ou banco de dados</span></label>
+            <label class="opt"><input type="radio" name="data" value="bi"><span>Já tenho <b>BI ou painéis</b></span></label>
+            <label class="opt"><input type="radio" name="data" value="nao-sei"><span><b>Não sei</b> dizer</span></label>
+          </fieldset>
+
+          <fieldset class="quiz-step" data-step="2" hidden>
+            <legend>Que tipo de apoio você busca?</legend>
+            <label class="opt"><input type="radio" name="help" value="pontual"><span>Uma <b>entrega com prazo</b> definido</span></label>
+            <label class="opt"><input type="radio" name="help" value="continuo"><span><b>Evolução contínua</b>, mês a mês</span></label>
+            <label class="opt"><input type="radio" name="help" value="entender"><span>Primeiro <b>entender se vale</b> a pena</span></label>
+          </fieldset>
+
+          <div class="quiz-result" id="quizResult" hidden tabindex="-1">
+            <p class="fmt-k">Recomendação</p>
+            <h3 id="quizTitle">Projeto</h3>
+            <p id="quizText"></p>
+            <div class="ctas">
+              <a href="#contato" class="btn btn-primary" id="quizCta" data-track="quiz_cta">Agendar com esse contexto →</a>
+              <button type="button" class="btn btn-ghost" id="quizRestart">Refazer</button>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button type="button" class="btn btn-ghost btn-sm" id="quizBack" hidden>← Voltar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <!-- 08 · STACK -->
     <section class="block" aria-labelledby="t-stack">
       <div class="wrap">
-        <p class="kicker"><b>// 06</b> — Stack</p>
+        <p class="kicker"><b>// 07</b> — Stack</p>
         <h2 id="t-stack" class="split-lines">Ferramentas certas para <em>cada etapa</em>.</h2>
+        <div class="constellation" id="constellation" aria-hidden="true" data-reveal>
+          <canvas></canvas>
+          <div class="c-nodes"></div>
+          <p class="c-hint">arraste para girar</p>
+        </div>
         <div class="stack-cloud" data-reveal>
           <div><h3>Linguagens</h3><ul class="chips"><li>Python</li><li>SQL</li><li>R</li></ul></div>
           <div><h3>Machine Learning</h3><ul class="chips"><li>scikit-learn</li><li>XGBoost</li><li>PyTorch</li></ul></div>
@@ -284,7 +452,7 @@
           <figcaption>Retrato do Felipe<br><small>≥ 2560px · luz lateral · fundo escuro</small></figcaption>
         </figure>
         <div>
-          <p class="kicker"><b>// 07</b> — Sobre</p>
+          <p class="kicker"><b>// 08</b> — Sobre</p>
           <h2 id="t-about" class="split-lines">Oi, eu sou o <em>Felipe</em>.</h2>
           <p class="lead" data-reveal>[Trajetória em 3–4 frases: formação, onde trabalhou, que tipo de problema ama resolver.] Você fala direto comigo do diagnóstico à entrega — sem repasse para júnior, sem camada de agência.</p>
           <div class="ctas" data-reveal>
@@ -298,7 +466,7 @@
     <!-- 10 · DEPOIMENTOS -->
     <section class="block" aria-labelledby="t-tst">
       <div class="wrap">
-        <p class="kicker"><b>// 08</b> — Depoimentos</p>
+        <p class="kicker"><b>// 09</b> — Depoimentos</p>
         <h2 id="t-tst" class="split-lines">Quem já trabalhou <em>comigo</em>.</h2>
         <div class="tst-grid">
           <figure class="tst" data-reveal><blockquote>[Depoimento real do cliente com resultado concreto.]</blockquote><figcaption><span class="av" aria-hidden="true"></span>[Nome] · [Cargo], [Empresa]</figcaption></figure>
@@ -311,7 +479,7 @@
     <section class="block" aria-labelledby="t-faq">
       <div class="wrap faq-wrap">
         <div>
-          <p class="kicker"><b>// 09</b> — Perguntas</p>
+          <p class="kicker"><b>// 10</b> — Perguntas</p>
           <h2 id="t-faq" class="split-lines">Antes de você <em>perguntar</em>.</h2>
         </div>
         <div class="faq" data-reveal>
@@ -328,7 +496,7 @@
     <!-- 12 · CTA FINAL -->
     <section class="final" id="contato" aria-labelledby="t-final">
       <div class="wrap">
-        <div class="signal-dot" aria-hidden="true"></div>
+        <div class="signal-dot" aria-hidden="true"><canvas id="signalScene"></canvas></div>
         <h2 id="t-final" class="split-lines">Qual decisão você quer <em>acertar</em> com dados?</h2>
         <p class="lead" data-reveal>30 minutos, sem custo. Você sai com um diagnóstico claro do que dá pra fazer com os dados que já tem.</p>
 
@@ -359,16 +527,50 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap foot">
-      <span>© <span id="year">2026</span> Felipe Fuck · Consultoria em Ciência de Dados</span>
-      <nav aria-label="Redes">
-        <a href="#" data-link="linkedin" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="#" data-link="github" target="_blank" rel="noopener">GitHub</a>
-        <a href="#" data-link="kaggle" target="_blank" rel="noopener">Kaggle</a>
-        <a href="#" data-link="email">E-mail</a>
-        <a href="#" data-link="onepager" data-track="onepager_download">One-pager (PDF)</a>
-      </nav>
+  <footer class="site-footer big">
+    <div class="wrap">
+      <div class="foot-cta">
+        <p class="kicker"><b>//</b> vamos conversar</p>
+        <button type="button" class="copy-email" data-copy-email aria-label="Copiar e-mail">
+          <span class="copy-text" data-email-text>felipeffullana@gmail.com</span>
+          <span class="copy-hint" aria-live="polite">Copiar</span>
+        </button>
+        <div class="ctas">
+          <a href="#contato" class="btn btn-primary" data-track="cta_click" data-section="footer">Agendar diagnóstico</a>
+          <a href="#" class="btn btn-ghost" data-link="whatsapp" data-track="whatsapp_click" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="foot-grid">
+        <div>
+          <h2 class="foot-h">Navegar</h2>
+          <ul>
+            <li><a href="#servicos">Serviços</a></li><li><a href="#cases">Cases</a></li><li><a href="#processo">Processo</a></li>
+            <li><a href="#formatos">Formatos</a></li><li><a href="#diagnostico">Diagnóstico rápido</a></li><li><a href="#sobre">Sobre</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="foot-h">Redes</h2>
+          <ul>
+            <li><a href="#" data-link="linkedin" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+            <li><a href="#" data-link="github" target="_blank" rel="noopener">GitHub ↗</a></li>
+            <li><a href="#" data-link="kaggle" target="_blank" rel="noopener">Kaggle ↗</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="foot-h">Materiais</h2>
+          <ul>
+            <li><a href="#" data-link="onepager" data-track="onepager_download">One-pager de serviços (PDF)</a></li>
+            <li><a href="#" data-link="email">E-mail</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <span>© <span id="year">2026</span> Felipe Fuck · Consultoria em Ciência de Dados</span>
+        <a href="#top" class="to-top">Voltar ao topo ↑</a>
+      </div>
+      <p class="foot-mega" aria-hidden="true">felipe<span>.</span>fuck</p>
     </div>
   </footer>
 

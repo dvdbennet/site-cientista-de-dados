@@ -154,7 +154,7 @@ export function createHeroScene(canvas: HTMLCanvasElement, opts: { reducedMotion
   const camera = new PerspectiveCamera(50, 1, 0.1, 100);
   camera.position.set(0, 0, 9);
 
-  const geometry = buildGeometry(mobile ? 3500 : 9000);
+  const geometry = buildGeometry(mobile ? 2600 : 8000);
   const uniforms = {
     uP1: { value: 0 },
     uP2: { value: 0 },

@@ -223,10 +223,19 @@ site-cientista-de-dados/
 │   ├── subpage.ts          ← Entrada das páginas internas
 │   ├── page.ts             ← Base comum: fontes, estilos, scroll, tracking
 │   ├── styles/main.css     ← Todo o visual (cores, tipografia, layout)
-│   ├── scene/hero-scene.ts ← Cena 3D (Three.js + shaders)
+│   ├── scene/
+│   │   ├── hero-scene.ts   ← 3D do topo (ruído → clusters → modelo)
+│   │   └── signal-scene.ts ← 3D do convite final (partículas viram um ponto)
 │   ├── motion/             ← Scroll suave e animações de entrada
-│   ├── ui/                 ← Header, CTA fixo, cases, contato, contador do hero
-│   └── lib/                ← Links e tracking (dataLayer/GTM)
+│   ├── ui/
+│   │   ├── nav.ts          ← Menu mobile, barra de progresso, link ativo
+│   │   ├── quiz.ts         ← Diagnóstico rápido (3 perguntas → formato)
+│   │   ├── process.ts      ← Processo contado pelo scroll
+│   │   ├── constellation.ts← Constelação 3D de ferramentas
+│   │   ├── cases.ts        ← Carrossel infinito de cases
+│   │   ├── fx.ts           ← Cursor personalizado + inclinação dos cards
+│   │   └── contact.ts …    ← Formulário, agenda, CTA fixo, contador do hero
+│   └── lib/                ← Links, copiar e-mail e tracking (dataLayer/GTM)
 ├── docs/
 │   ├── PLANO.md            ← Plano completo do projeto (estratégia, UX, roadmap)
 │   └── esboco.html         ← Esboço/wireframe original (abre direto no navegador)
@@ -244,13 +253,16 @@ site-cientista-de-dados/
 
 | Quero mudar… | Arquivo |
 |---|---|
-| E-mail (recebe o formulário e todos os links de e-mail), WhatsApp, agenda, LinkedIn/GitHub/Kaggle | `src/config.ts` |
+| E-mail (recebe o formulário e todos os links de e-mail), WhatsApp, agenda, LinkedIn/GitHub/Kaggle, selo "Disponível para novos projetos" | `src/config.ts` |
 | Textos, serviços, cases, preços, FAQ, depoimentos | `index.html` (procure os trechos entre `[colchetes]`) |
 | Números da faixa de prova (contadores animados) | `index.html` → preencha `data-count="42"` **e** o texto `42` |
 | Cores, fontes, espaçamentos | `src/styles/main.css` → bloco `:root` no topo |
 | Retrato do Felipe | Coloque a foto em `public/felipe.webp` e troque o comentário dentro de `<figure class="portrait">` em `index.html` |
 | Nova página de case | Duplique `cases/exemplo.html`, edite, e registre o arquivo novo em `vite.config.ts` (`build.rollupOptions.input`) |
-| Partículas 3D (quantidade, cores, formas) | `src/scene/hero-scene.ts` |
+| Partículas 3D (quantidade, cores, formas) | `src/scene/hero-scene.ts` e `src/scene/signal-scene.ts` |
+| Perguntas e recomendações do diagnóstico rápido | `index.html` (seção `#diagnostico`) + textos em `src/ui/quiz.ts` |
+| Ferramentas da constelação | `index.html` → lista `.stack-cloud` (a constelação é gerada a partir dela) |
+| Foto pequena do topo (avatar) | Coloque `public/felipe-avatar.webp` e troque o `<span class="avatar">FF</span>` pelo `<img>` comentado ao lado |
 
 **Regra do projeto:** nenhum número, cliente ou depoimento inventado — só dados reais. Onde ainda não há dado, o texto fica entre `[colchetes]`.
 
@@ -287,11 +299,27 @@ E preencha em `.env.local`:
 
 **Agenda online:** crie uma conta em <https://cal.com>, crie um evento (ex.: "Diagnóstico 30 min") e coloque `usuario/evento` em `calLink` no `src/config.ts`.
 
-Eventos enviados ao `dataLayer`: `cta_click`, `whatsapp_click`, `email_click`, `case_open`, `calendar_open`, `calendar_booked`, `form_submit`, `scroll_depth`, `onepager_download`, `conversion_thank_you`.
+Eventos enviados ao `dataLayer`: `cta_click`, `whatsapp_click`, `email_click`, `email_copy`, `case_open`, `quiz_open`, `quiz_start`, `quiz_complete`, `quiz_cta`, `calendar_open`, `calendar_booked`, `form_submit`, `scroll_depth`, `onepager_download`, `conversion_thank_you`.
 
 > Reinicie o `npm run dev` depois de mudar o `.env.local`.
 
 ---
+
+## 8.3 Qualidade medida (Lighthouse)
+
+Medido na versão de build (`npm run build && npm run preview`):
+
+| Página | Desempenho | Acessibilidade | Boas práticas | SEO |
+|---|---|---|---|---|
+| Home — celular | 97 | 100 | 100 | 100 |
+| Home — desktop | 100 | 100 | 100 | 100 |
+| Case — celular | 97 | 100 | 100 | 100 |
+
+Para medir de novo (com o `npm run preview` rodando em outro terminal):
+
+```bash
+npx lighthouse http://localhost:4173 --view
+```
 
 ## 9. Publicar na internet (Vercel)
 

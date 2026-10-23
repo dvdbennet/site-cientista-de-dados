@@ -4,6 +4,10 @@ import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
+let current: Lenis | null = null;
+/** Instância atual do Lenis (null com "reduzir movimento"). */
+export const getLenis = () => current;
+
 export const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
@@ -34,5 +38,6 @@ export function initSmoothScroll(): Lenis | null {
     history.replaceState(null, '', id);
   });
 
+  current = lenis;
   return lenis;
 }

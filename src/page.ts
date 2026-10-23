@@ -8,11 +8,13 @@ import '@fontsource-variable/jetbrains-mono';
 import './styles/main.css';
 
 import { env } from './config';
-import { applyLinks } from './lib/links';
-import { initTracking } from './lib/track';
+import { applyLinks, initCopyEmail } from './lib/links';
+import { initTracking, track } from './lib/track';
 import { initMagnetic, initReveals } from './motion/reveals';
 import { initSmoothScroll, prefersReducedMotion } from './motion/smooth';
 import { initChrome } from './ui/chrome';
+import { initMobileMenu, initScrollSpy } from './ui/nav';
+import { initCursor, initTilt } from './ui/fx';
 
 export const reducedMotion = prefersReducedMotion();
 
@@ -22,7 +24,12 @@ export function initPage() {
   applyLinks();
   initTracking(env.gtmId);
   initChrome();
-  return initSmoothScroll();
+  const lenis = initSmoothScroll();
+  initMobileMenu();
+  initScrollSpy();
+  initCopyEmail(() => track('email_copy'));
+  if (!reducedMotion) initCursor();
+  return lenis;
 }
 
 /** Revelações dependem da fonte final (quebra de linhas) — espera carregar, no máx. 1,5 s. */
@@ -31,5 +38,6 @@ export async function initRevealsWhenReady() {
   if (!reducedMotion) {
     initReveals();
     initMagnetic();
+    initTilt();
   }
 }

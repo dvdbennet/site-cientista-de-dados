@@ -98,6 +98,15 @@ export function initCases({ parallax = true } = {}) {
   track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
   track.addEventListener('dragstart', (e) => e.preventDefault());
 
+  // Transição para a página do case: só o card clicado recebe o nome compartilhado
+  track.addEventListener('click', (e) => {
+    const media = (e.target as Element).closest('.case')?.querySelector<HTMLElement>('.case-media');
+    if (!media || e.defaultPrevented) return;
+    all.forEach((c) => c.querySelector<HTMLElement>('.case-media')?.style.removeProperty('view-transition-name'));
+    media.style.viewTransitionName = 'case-media';
+  });
+  addEventListener('pageshow', () => all.forEach((c) => c.querySelector<HTMLElement>('.case-media')?.style.removeProperty('view-transition-name')));
+
   // Parallax vertical da imagem dentro do card
   if (parallax) {
     all.forEach((card) => {
@@ -109,14 +118,4 @@ export function initCases({ parallax = true } = {}) {
       });
     });
   }
-}
-
-/** Linha do processo que se desenha conforme o scroll. */
-export function initProcessLine() {
-  const line = document.querySelector('.proc-line');
-  if (!line) return;
-  const mm = gsap.matchMedia();
-  const st = { trigger: '#proc', start: 'top 75%', end: 'bottom 60%', scrub: 0.6 };
-  mm.add('(min-width: 960px)', () => { gsap.fromTo(line, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: st }); });
-  mm.add('(max-width: 959px)', () => { gsap.fromTo(line, { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: st }); });
 }

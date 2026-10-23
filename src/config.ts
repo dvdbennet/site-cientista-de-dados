@@ -9,6 +9,8 @@ export const site = {
   email: 'felipeffullana@gmail.com',
   /** Só números, com DDI + DDD. Ex.: 5511999999999 */
   whatsapp: '5561982800038',
+  /** Texto do selo verde no topo. Ex.: 'Disponível para novos projetos em novembro'. */
+  availability: 'Disponível para novos projetos',
   whatsappMessage: 'Olá Felipe! Vim pelo site e quero conversar sobre um projeto de dados.',
   /** Usuário/evento do Cal.com. Ex.: 'felipefuck/diagnostico'. Vazio = mostra botão de e-mail. */
   calLink: '', // TODO: link do Cal.com

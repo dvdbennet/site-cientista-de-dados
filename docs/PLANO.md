@@ -217,3 +217,5 @@ GA4 (ou Plausible) via GTM — eventos: `cta_click` (com `section`), `calendar_o
 - ✅ Correções no contador do hero (palavras empilhadas e cortadas).
 - ✅ Fase 2 (build) iniciada: site em Vite + TS + Three.js (shader na GPU) + GSAP + Lenis, com Home, modelo de case, /obrigado, formulário, Cal.com e tracking — tudo com placeholders.
 - ⏭️ **Retomar por:** responder §12 (itens 2–5) → preencher conteúdo real (§10) em `index.html` e `src/config.ts` → deploy na Vercel.
+- ✅ 2026-10-23 — pacote de UI/UX (13 itens): menu mobile em tela cheia, barra de progresso + seção ativa, hero mais claro (avatar + selo de disponibilidade, 200vh), diagnóstico rápido interativo, mini-gráficos nos cases, partículas convergindo no CTA final, processo em scrollytelling, constelação 3D de ferramentas, View Transitions entre páginas, cursor personalizado + tilt, rodapé grande com copiar e-mail, Lighthouse 97/100/100/100 (mobile) e 100×4 (desktop).
+

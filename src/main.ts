@@ -2,9 +2,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initPage, initRevealsWhenReady, reducedMotion } from './page';
 import { introHero } from './motion/reveals';
 import { createBeats } from './ui/hero-ui';
-import { initCases, initProcessLine } from './ui/cases';
+import { initCases } from './ui/cases';
+import { initProcess } from './ui/process';
+import { initConstellation } from './ui/constellation';
 import { initCalendar, initLeadForm } from './ui/contact';
+import { initQuiz } from './ui/quiz';
 import type { HeroScene } from './scene/hero-scene';
+
+/** Roda quando o navegador estiver ocioso (com prazo máximo). */
+const whenIdle = (fn: () => void, timeout = 1500) =>
+  'requestIdleCallback' in window ? requestIdleCallback(() => fn(), { timeout }) : setTimeout(fn, 200);
 
 initPage();
 if (!reducedMotion) introHero();
@@ -31,14 +38,40 @@ if (canvas) {
     scene = createHeroScene(canvas, { reducedMotion });
     scene?.setProgress(heroTrigger.progress);
   };
-  if ('requestIdleCallback' in window) requestIdleCallback(() => void load(), { timeout: 1200 });
-  else setTimeout(() => void load(), 300);
+  // espera o carregamento + ociosidade para não competir com o primeiro paint
+  const start = () => whenIdle(() => void load(), 2000);
+  if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+}
+
+// Partículas convergindo no convite final (carrega quando a seção se aproxima)
+const signalCanvas = document.getElementById('signalScene') as HTMLCanvasElement | null;
+if (signalCanvas) {
+  let signal: import('./scene/signal-scene').SignalScene | null = null;
+  const signalTrigger = ScrollTrigger.create({
+    trigger: '#contato',
+    start: 'top bottom',
+    end: 'top 25%',
+    onUpdate: (self) => signal?.setProgress(self.progress),
+  });
+  const io = new IntersectionObserver(async ([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    const { createSignalScene } = await import('./scene/signal-scene');
+    signal = createSignalScene(signalCanvas, { reducedMotion });
+    signal?.setProgress(signalTrigger.progress);
+  }, { rootMargin: '600px' });
+  io.observe(signalCanvas);
 }
 
 initLeadForm();
 initCalendar();
+whenIdle(initQuiz);
 
 initCases({ parallax: !reducedMotion });
-if (!reducedMotion) initProcessLine();
+whenIdle(() => {
+  initProcess({ animate: !reducedMotion });
+  initConstellation({ animate: !reducedMotion });
+  ScrollTrigger.refresh();
+});
 
 void initRevealsWhenReady().then(() => ScrollTrigger.refresh());
