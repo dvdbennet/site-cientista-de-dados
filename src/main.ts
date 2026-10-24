@@ -5,6 +5,8 @@ import { createBeats } from './ui/hero-ui';
 import { initCases } from './ui/cases';
 import { initProcess } from './ui/process';
 import { initConstellation } from './ui/constellation';
+import { initForecastDemo } from './ui/forecast-demo';
+import { initCalculator } from './ui/calculator';
 import { initCalendar, initLeadForm } from './ui/contact';
 import { initQuiz } from './ui/quiz';
 import type { HeroScene } from './scene/hero-scene';
@@ -71,6 +73,8 @@ initCases({ parallax: !reducedMotion });
 whenIdle(() => {
   initProcess({ animate: !reducedMotion });
   initConstellation({ animate: !reducedMotion });
+  initForecastDemo({ animate: !reducedMotion });
+  initCalculator({ animate: !reducedMotion });
   ScrollTrigger.refresh();
 });
 

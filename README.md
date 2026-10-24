@@ -175,7 +175,8 @@ Páginas disponíveis:
 
 | Endereço | Página |
 |---|---|
-| <http://localhost:5173/> | Home |
+| <http://localhost:5173/> | Home (português) |
+| <http://localhost:5173/en/> | Home (inglês) |
 | <http://localhost:5173/cases/exemplo.html> | Modelo de página de case |
 | <http://localhost:5173/obrigado.html> | Página de agradecimento (pós-formulário) |
 
@@ -203,6 +204,8 @@ Outros comandos úteis:
 | `npm run build` | Verifica os tipos (TypeScript) e gera `dist/` |
 | `npm run preview` | Serve a pasta `dist/` localmente |
 | `npm run typecheck` | Só verifica erros de TypeScript |
+| `npm run i18n` | Regera a versão em inglês (`en/index.html`) a partir de `index.html` — já roda sozinho no `dev` e no `build` |
+| `npm run og` | Regera as imagens de compartilhamento (`public/og-image*.png`) — precisa do Google Chrome |
 
 ---
 
@@ -210,7 +213,10 @@ Outros comandos úteis:
 
 ```
 site-cientista-de-dados/
-├── index.html              ← Home (todo o conteúdo/textos das seções)
+├── index.html              ← Home em português (todo o conteúdo/textos das seções)
+├── en/
+│   ├── index.html          ← Home em inglês — GERADA por scripts/build-en.mjs (não edite à mão)
+│   └── thanks.html         ← Página de agradecimento em inglês
 ├── obrigado.html           ← Página pós-envio do formulário
 ├── cases/
 │   └── exemplo.html        ← Modelo de página de case (duplique para cada case)
@@ -229,13 +235,19 @@ site-cientista-de-dados/
 │   ├── motion/             ← Scroll suave e animações de entrada
 │   ├── ui/
 │   │   ├── nav.ts          ← Menu mobile, barra de progresso, link ativo
-│   │   ├── quiz.ts         ← Diagnóstico rápido (3 perguntas → formato)
+│   │   ├── quiz.ts         ← Diagnóstico rápido (3 perguntas → formato → agenda)
+│   │   ├── forecast-demo.ts← Laboratório: demo interativa de previsão (dados simulados)
+│   │   ├── calculator.ts   ← Calculadora "quanto custa decidir no escuro"
 │   │   ├── process.ts      ← Processo contado pelo scroll
 │   │   ├── constellation.ts← Constelação 3D de ferramentas
 │   │   ├── cases.ts        ← Carrossel infinito de cases
 │   │   ├── fx.ts           ← Cursor personalizado + inclinação dos cards
 │   │   └── contact.ts …    ← Formulário, agenda, CTA fixo, contador do hero
-│   └── lib/                ← Links, copiar e-mail e tracking (dataLayer/GTM)
+│   └── lib/                ← Links, copiar e-mail, idioma (i18n.ts) e tracking (dataLayer/GTM)
+├── scripts/
+│   ├── build-en.mjs        ← Tradução PT → EN da home (lista de pares português/inglês)
+│   ├── og-image.html       ← Modelo da imagem de compartilhamento
+│   └── og.mjs              ← Gera public/og-image.png e og-image-en.png
 ├── docs/
 │   ├── PLANO.md            ← Plano completo do projeto (estratégia, UX, roadmap)
 │   └── esboco.html         ← Esboço/wireframe original (abre direto no navegador)
@@ -261,8 +273,21 @@ site-cientista-de-dados/
 | Nova página de case | Duplique `cases/exemplo.html`, edite, e registre o arquivo novo em `vite.config.ts` (`build.rollupOptions.input`) |
 | Partículas 3D (quantidade, cores, formas) | `src/scene/hero-scene.ts` e `src/scene/signal-scene.ts` |
 | Perguntas e recomendações do diagnóstico rápido | `index.html` (seção `#diagnostico`) + textos em `src/ui/quiz.ts` |
+| Textos em inglês | `scripts/build-en.mjs` (pares português → inglês) e, nos arquivos `.ts`, a função `t('português', 'inglês')` |
+| Laboratório de previsão (premissas do modelo simulado) | `src/ui/forecast-demo.ts` (constantes no topo) |
+| Calculadora (valores iniciais) | `index.html`, seção `#calculadora` |
+| Imagem de compartilhamento (WhatsApp/LinkedIn) | `scripts/og-image.html` e depois `npm run og` |
 | Ferramentas da constelação | `index.html` → lista `.stack-cloud` (a constelação é gerada a partir dela) |
 | Foto pequena do topo (avatar) | Coloque `public/felipe-avatar.webp` e troque o `<span class="avatar">FF</span>` pelo `<img>` comentado ao lado |
+
+### Versão em inglês — como manter
+
+A home em inglês (`/en/`) é gerada automaticamente a partir da home em português:
+
+1. Edite `index.html` normalmente.
+2. Rode `npm run i18n` (ou apenas `npm run dev` / `npm run build`, que já rodam).
+3. Se aparecer **"⚠ trecho(s) não encontrado(s)"**, é porque você mudou um texto em português: abra `scripts/build-en.mjs`, ache o par antigo e atualize o lado em português **e** a tradução.
+4. Textos que o JavaScript gera (diagnóstico, formulário, laboratório, calculadora) usam `t('português', 'inglês')` dentro de `src/`.
 
 **Regra do projeto:** nenhum número, cliente ou depoimento inventado — só dados reais. Onde ainda não há dado, o texto fica entre `[colchetes]`.
 
@@ -295,11 +320,14 @@ E preencha em `.env.local`:
 | Variável | O que faz | Onde conseguir |
 |---|---|---|
 | `VITE_GTM_ID` | Ativa o Google Tag Manager (GA4, pixels etc.) | <https://tagmanager.google.com> |
+| `VITE_SITE_URL` | URL pública do site, usada na imagem de compartilhamento e links canônicos | O domínio onde o site foi publicado |
 | `VITE_FORM_ENDPOINT` | (Opcional) Substitui o FormSubmit por outro serviço, ex.: Formspree | Crie um formulário em <https://formspree.io> e copie a URL `https://formspree.io/f/…` |
 
-**Agenda online:** crie uma conta em <https://cal.com>, crie um evento (ex.: "Diagnóstico 30 min") e coloque `usuario/evento` em `calLink` no `src/config.ts`.
+**Agenda online:** crie uma conta em <https://cal.com>, crie um evento (ex.: "Diagnóstico 30 min") e coloque `usuario/evento` em `calLink` no `src/config.ts`. Com isso a agenda aparece na seção de contato **e dentro do resultado do diagnóstico rápido** (botão "Escolher horário agora"), já com as respostas preenchidas nas observações do agendamento.
 
-Eventos enviados ao `dataLayer`: `cta_click`, `whatsapp_click`, `email_click`, `email_copy`, `case_open`, `quiz_open`, `quiz_start`, `quiz_complete`, `quiz_cta`, `calendar_open`, `calendar_booked`, `form_submit`, `scroll_depth`, `onepager_download`, `conversion_thank_you`.
+**URL do site (imagens de compartilhamento):** depois de publicar, defina `VITE_SITE_URL` (ex.: `https://felipefuck.com`) no `.env.local` ou nas variáveis da Vercel. Sem isso, o padrão é `https://site-cientista-de-dados.vercel.app`. Teste como o link aparece em <https://www.opengraph.xyz>.
+
+Eventos enviados ao `dataLayer`: `cta_click`, `whatsapp_click`, `email_click`, `email_copy`, `case_open`, `quiz_open`, `quiz_start`, `quiz_complete`, `quiz_cta`, `quiz_book`, `lab_interact`, `calc_interact`, `calc_cta`, `calendar_open`, `calendar_booked`, `form_submit`, `scroll_depth`, `onepager_download`, `conversion_thank_you`.
 
 > Reinicie o `npm run dev` depois de mudar o `.env.local`.
 
@@ -311,7 +339,8 @@ Medido na versão de build (`npm run build && npm run preview`):
 
 | Página | Desempenho | Acessibilidade | Boas práticas | SEO |
 |---|---|---|---|---|
-| Home — celular | 97 | 100 | 100 | 100 |
+| Home PT — celular | 95–96 | 100 | 100 | 100 |
+| Home EN — celular | 96 | 100 | 100 | 100 |
 | Home — desktop | 100 | 100 | 100 | 100 |
 | Case — celular | 97 | 100 | 100 | 100 |
 

@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+  Gerador da imagem de compartilhamento (1200×630) — public/og-image.png e public/og-image-en.png.
+  Para regenerar depois de mudar textos/cores: `npm run og` (precisa do Google Chrome instalado).
+  ?lang=en gera a versão em inglês.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: 'IT'; src: url('../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'IN'; src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'JB'; src: url('../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'IS'; src: url('../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2') format('woff2'); font-style: italic; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1200px; height: 630px; overflow: hidden; background: #07090d; color: #e8edf5; }
+body {
+  position: relative; font-family: 'IN', sans-serif;
+  background-image: linear-gradient(#1c2533 1px, transparent 1px), linear-gradient(90deg, #1c2533 1px, transparent 1px);
+  background-size: 48px 48px; background-position: -1px -1px;
+}
+body::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(7,9,13,.55), #07090d 75%); }
+canvas { position: absolute; inset: 0; z-index: 1; width: 1200px; height: 630px; }
+.copy { position: absolute; z-index: 2; left: 72px; top: 76px; right: 520px; }
+.who { display: flex; align-items: center; gap: 14px; font: 600 22px 'IT'; }
+.who b { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px 'IT'; color: #04110c; background: linear-gradient(135deg, #7cf5c8, #6e8bff); }
+.who span { color: #8a97ab; font-weight: 500; }
+h1 { margin-top: 44px; font: 700 112px/0.92 'IT'; letter-spacing: -0.05em; }
+h1 em { font: italic 400 124px/0.9 'IS'; color: #7cf5c8; letter-spacing: -0.01em; }
+p.sub { margin-top: 30px; font: 600 28px/1.3 'IT'; letter-spacing: -0.015em; max-width: 620px; }
+.foot { position: absolute; z-index: 2; left: 72px; bottom: 58px; display: flex; gap: 26px; align-items: center; font: 500 17px 'JB'; color: #8a97ab; letter-spacing: .04em; }
+.foot i { width: 10px; height: 10px; border-radius: 50%; background: #7cf5c8; box-shadow: 0 0 16px #7cf5c8; }
+.foot .cta { color: #04110c; background: #7cf5c8; padding: 10px 18px; border-radius: 999px; font: 600 18px 'IN'; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<canvas id="c" width="2400" height="1260"></canvas>
+<div class="copy">
+  <div class="who"><b>FF</b>Felipe Fuck <span data-pt="· Cientista de Dados" data-en="· Data Scientist">· Cientista de Dados</span></div>
+  <h1 data-pt="Do ruído<br>ao <em>sinal</em>." data-en="From noise<br>to <em>signal</em>.">Do ruído<br>ao <em>sinal</em>.</h1>
+  <p class="sub" data-pt="Previsão, machine learning e dashboards para empresas decidirem com números." data-en="Forecasting, machine learning and dashboards so companies decide with numbers.">Previsão, machine learning e dashboards para empresas decidirem com números.</p>
+</div>
+<div class="foot">
+  <span class="cta" data-pt="Diagnóstico gratuito →" data-en="Free discovery call →">Diagnóstico gratuito →</span>
+  <i></i><span data-pt="Consultor independente" data-en="Independent consultant">Consultor independente</span>
+</div>
+<script>
+  const en = new URLSearchParams(location.search).get('lang') === 'en';
+  document.querySelectorAll('[data-pt]').forEach((el) => { el.innerHTML = en ? el.dataset.en : el.dataset.pt; });
+  if (en) document.documentElement.lang = 'en';
+
+  // ruído (esquerda/topo) → clusters → curva do modelo (direita), mesma metáfora do site
+  let s = 7; const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  const g = () => { let u = 0, v = 0; while (!u) u = rnd(); while (!v) v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  const c = document.getElementById('c'), x = c.getContext('2d');
+  x.scale(2, 2); x.globalCompositeOperation = 'lighter';
+  const dot = (px, py, r, col, a) => { const gr = x.createRadialGradient(px, py, 0, px, py, r); gr.addColorStop(0, col.replace('A', a)); gr.addColorStop(1, col.replace('A', 0)); x.fillStyle = gr; x.beginPath(); x.arc(px, py, r, 0, 7); x.fill(); };
+  // ruído
+  for (let i = 0; i < 700; i++) dot(620 + rnd() * 600, rnd() * 630, 1.6 + rnd() * 2.2, 'rgba(163,175,196,A)', 0.55 * rnd());
+  // clusters
+  const cl = [[790, 170, '124,245,200'], [930, 300, '110,139,255'], [800, 450, '255,184,107'], [1010, 470, '199,146,234']];
+  cl.forEach(([cx, cy, rgb]) => { for (let i = 0; i < 260; i++) dot(cx + g() * 34, cy + g() * 34, 2 + rnd() * 2.4, `rgba(${rgb},A)`, 0.75); });
+  // curva do modelo convergindo ao "sinal"
+  const curve = (t) => [700 + t * 450, 560 - Math.pow(t, 1.6) * 470 + Math.sin(t * 9) * 14 * (1 - t)];
+  for (let i = 0; i < 900; i++) { const t = rnd(); const [px, py] = curve(t); const jit = (1 - t) * 18; dot(px + g() * jit, py + g() * jit, 1.8 + rnd() * 1.8, t > 0.5 ? 'rgba(124,245,200,A)' : 'rgba(110,139,255,A)', 0.8); }
+  const [ex, ey] = curve(1); dot(ex, ey, 60, 'rgba(124,245,200,A)', 0.35); dot(ex, ey, 9, 'rgba(232,255,246,A)', 1);
+</script>
+</body>
+</html>

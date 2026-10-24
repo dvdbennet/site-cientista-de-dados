@@ -1,18 +1,27 @@
 import { formEndpoint, site } from '../config';
 import { track } from '../lib/track';
+import { lang, t } from '../lib/i18n';
 
 /** Agenda do Cal.com (carregada só quando chega perto da tela). */
+/** URL do Cal.com embutido, com observações pré-preenchidas (ex.: respostas do diagnóstico). */
+export function calEmbed(notes = '') {
+  if (!site.calLink) return null;
+  const iframe = document.createElement('iframe');
+  const q = new URLSearchParams({ embed: 'true', theme: 'dark', layout: 'month_view' });
+  if (notes) q.set('notes', notes);
+  iframe.src = `https://cal.com/${site.calLink}?${q}`;
+  iframe.title = t('Agendar diagnóstico com Felipe Fuck', 'Book a discovery call with Felipe Fuck');
+  iframe.loading = 'lazy';
+  return iframe;
+}
+
 export function initCalendar() {
   const box = document.getElementById('cal');
   if (!box || !site.calLink) return;
   const io = new IntersectionObserver(([e]) => {
     if (!e.isIntersecting) return;
     io.disconnect();
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://cal.com/${site.calLink}?embed=true&theme=dark&layout=month_view`;
-    iframe.title = 'Agendar diagnóstico com Felipe Fuck';
-    iframe.loading = 'lazy';
-    box.replaceChildren(iframe);
+    box.replaceChildren(calEmbed()!);
     track('calendar_open');
   }, { rootMargin: '400px' });
   io.observe(box);
@@ -41,7 +50,7 @@ export function initLeadForm() {
       if (!valid) ok = false;
     });
     if (!ok) {
-      status.textContent = 'Preencha nome, e-mail válido e a decisão que quer melhorar.';
+      status.textContent = t('Preencha nome, e-mail válido e a decisão que quer melhorar.', 'Please fill in your name, a valid email and the decision you want to improve.');
       status.classList.add('err');
       return;
     }
@@ -53,20 +62,20 @@ export function initLeadForm() {
     delete data._honey;
 
     const mailtoFallback = () => {
-      const body = `Nome: ${data.nome}\nE-mail: ${data.email}\nEmpresa: ${data.empresa || '-'}\n\n${data.decisao}`;
-      location.href = `mailto:${site.email}?subject=${encodeURIComponent('Projeto de dados — ' + data.nome)}&body=${encodeURIComponent(body)}`;
+      const body = `${t('Nome', 'Name')}: ${data.nome}\nE-mail: ${data.email}\n${t('Empresa', 'Company')}: ${data.empresa || '-'}\n\n${data.decisao}`;
+      location.href = `mailto:${site.email}?subject=${encodeURIComponent(t('Projeto de dados — ', 'Data project — ') + data.nome)}&body=${encodeURIComponent(body)}`;
       track('form_submit', { method: 'mailto' });
     };
 
     button.disabled = true;
-    status.textContent = 'Enviando…';
+    status.textContent = t('Enviando…', 'Sending…');
     try {
       const res = await fetch(formEndpoint(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           ...data,
-          _subject: `Novo contato pelo site — ${data.nome}`,
+          _subject: `${t('Novo contato pelo site', 'New website contact')} — ${data.nome}`,
           _replyto: data.email,
           _template: 'table',
         }),
@@ -74,10 +83,10 @@ export function initLeadForm() {
       const json = (await res.json().catch(() => ({}))) as { success?: boolean | string };
       if (!res.ok || json.success === false || json.success === 'false') throw new Error(String(res.status));
       track('form_submit', { method: 'endpoint' });
-      location.href = '/obrigado.html';
+      location.href = lang === 'en' ? '/en/thanks.html' : '/obrigado.html';
     } catch {
       // serviço fora do ar ou ainda não ativado: abre o e-mail do visitante já preenchido
-      status.textContent = 'Abrindo seu e-mail para concluir o envio…';
+      status.textContent = t('Abrindo seu e-mail para concluir o envio…', 'Opening your email app to finish sending…');
       button.disabled = false;
       mailtoFallback();
     }

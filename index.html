@@ -7,10 +7,23 @@
   <meta name="description" content="Consultor independente de ciência de dados. Previsão, modelos de machine learning e dashboards para empresas que querem decidir com números — sem precisar montar um time de dados.">
   <meta name="theme-color" content="#07090D">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="__SITE_URL__/">
+  <link rel="alternate" hreflang="pt-BR" href="__SITE_URL__/">
+  <link rel="alternate" hreflang="en" href="__SITE_URL__/en/">
+  <link rel="alternate" hreflang="x-default" href="__SITE_URL__/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="__SITE_URL__/">
+  <meta property="og:site_name" content="Felipe Fuck">
   <meta property="og:title" content="Felipe Fuck — Do ruído ao sinal">
-  <meta property="og:description" content="Transformo dados bagunçados em decisões que dão lucro.">
+  <meta property="og:description" content="Previsão, machine learning e dashboards para empresas decidirem com números. Diagnóstico gratuito de 30 minutos.">
   <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="__SITE_URL__/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Felipe Fuck — Do ruído ao sinal. Previsão, machine learning e dashboards.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="__SITE_URL__/og-image.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,6 +51,7 @@
         </ul>
       </nav>
       <div class="nav-right">
+        <a href="/en/" class="lang-switch" hreflang="en" lang="en" aria-label="English version">EN</a>
         <a href="#contato" class="btn btn-primary btn-sm nav-cta" data-track="cta_click" data-section="header">Agendar diagnóstico</a>
         <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
           <span></span><span></span>
@@ -63,6 +77,7 @@
     <div class="mobile-menu-foot">
       <a href="#contato" class="btn btn-primary" data-track="cta_click" data-section="menu_mobile">Agendar diagnóstico gratuito</a>
       <a href="#" class="btn btn-ghost" data-link="whatsapp" data-track="whatsapp_click" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="/en/" class="menu-lang" hreflang="en" lang="en">English version →</a>
     </div>
   </div>
 
@@ -270,6 +285,60 @@
       </div>
     </section>
 
+    <!-- 05b · LABORATÓRIO: demo interativa de previsão -->
+    <section class="block lab-block" id="laboratorio" aria-labelledby="t-lab">
+      <div class="wrap">
+        <div class="head-row">
+          <div>
+            <p class="kicker"><b>// lab</b> — Teste um modelo de previsão</p>
+            <h2 id="t-lab" class="split-lines">Mexa nos dados. Veja a <em>previsão</em> reagir.</h2>
+          </div>
+          <p class="lab-note">Dados simulados · demonstração</p>
+        </div>
+
+        <div class="lab" id="lab" data-reveal>
+          <div class="lab-chart">
+            <div class="lab-legend" aria-hidden="true">
+              <span><i class="lg-hist"></i>Histórico de vendas</span>
+              <span><i class="lg-fc"></i>Previsão do modelo</span>
+              <span><i class="lg-band"></i>Faixa de confiança</span>
+              <span><i class="lg-naive"></i>"Média das últimas semanas"</span>
+            </div>
+            <svg id="labSvg" role="img" aria-label="Gráfico de vendas semanais com previsão"></svg>
+          </div>
+
+          <div class="lab-side">
+            <div class="lab-controls">
+              <label class="ctl">
+                <span class="ctl-top"><span>Promoção / choque de demanda</span><output id="oShock">0%</output></span>
+                <input type="range" id="shock" min="-30" max="30" step="5" value="0">
+              </label>
+              <label class="ctl">
+                <span class="ctl-top"><span>Horizonte da previsão</span><output id="oHorizon">8 semanas</output></span>
+                <input type="range" id="horizon" min="4" max="16" step="1" value="8">
+              </label>
+              <label class="ctl">
+                <span class="ctl-top"><span>Nível de serviço desejado</span><output id="oService">95%</output></span>
+                <input type="range" id="service" min="80" max="99" step="1" value="95">
+              </label>
+              <label class="ctl-switch">
+                <input type="checkbox" id="season" checked>
+                <span class="sw" aria-hidden="true"></span>
+                <span>Considerar sazonalidade</span>
+              </label>
+            </div>
+
+            <dl class="lab-kpis" aria-live="polite">
+              <div><dt>Demanda prevista</dt><dd id="kDemand">—</dd></div>
+              <div><dt>Estoque recomendado</dt><dd id="kStock">—</dd></div>
+              <div class="wide"><dt>Quanto a "média simples" erraria</dt><dd id="kNaive">—</dd></div>
+            </dl>
+            <a href="#contato" class="btn btn-primary" data-track="cta_click" data-section="lab">Quero isso com os meus dados →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 06 · PROCESSO -->
     <section class="block" id="processo" aria-labelledby="t-proc">
       <div class="wrap">
@@ -334,6 +403,48 @@
             </ol>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 06b · CALCULADORA: quanto custa decidir no escuro -->
+    <section class="block" id="calculadora" aria-labelledby="t-calc">
+      <div class="wrap calc-wrap">
+        <div>
+          <p class="kicker"><b>// R$</b> — Calculadora</p>
+          <h2 id="t-calc" class="split-lines">Quanto custa decidir <em>no escuro</em>?</h2>
+          <p class="lead" data-reveal>Estoque parado, ruptura, cliente que sai sem aviso, relatório refeito à mão. Ajuste com a realidade da sua empresa e veja o valor em jogo.</p>
+          <p class="calc-disclaimer" data-reveal>Estimativa ilustrativa com as premissas que você escolher. No diagnóstico, o cálculo é feito com os seus números.</p>
+        </div>
+
+        <form class="calc" id="calc" data-reveal novalidate>
+          <label class="ctl calc-money">
+            <span class="ctl-top"><span>Faturamento mensal</span></span>
+            <span class="money-input"><span class="cur" data-currency>R$</span><input id="cRevenue" inputmode="numeric" autocomplete="off" value="500.000" aria-label="Faturamento mensal"></span>
+          </label>
+          <label class="ctl">
+            <span class="ctl-top"><span>Perda estimada com decisões sem dados</span><output id="oLoss">4%</output></span>
+            <input type="range" id="cLoss" min="1" max="15" step="0.5" value="4">
+            <small>ruptura, excesso de estoque, churn, retrabalho</small>
+          </label>
+          <label class="ctl">
+            <span class="ctl-top"><span>Quanto disso dá para recuperar com dados</span><output id="oRecover">25%</output></span>
+            <input type="range" id="cRecover" min="10" max="50" step="5" value="25">
+            <small>premissa conservadora; ajuste à vontade</small>
+          </label>
+
+          <div class="calc-out" aria-live="polite">
+            <div class="calc-big">
+              <span>Em jogo por mês</span>
+              <b id="cMonth">R$ 0</b>
+            </div>
+            <div class="calc-bar" aria-hidden="true"><i id="cBarLoss"></i><i id="cBarRec"></i></div>
+            <div class="calc-row">
+              <div><span>Recuperável por ano</span><b id="cYear" class="hl">R$ 0</b></div>
+              <div><span>Por semana sem agir</span><b id="cWeek">R$ 0</b></div>
+            </div>
+          </div>
+          <a href="#contato" class="btn btn-primary" id="calcCta" data-track="calc_cta">Calcular com meus números →</a>
+        </form>
       </div>
     </section>
 
@@ -413,9 +524,11 @@
             <h3 id="quizTitle">Projeto</h3>
             <p id="quizText"></p>
             <div class="ctas">
-              <a href="#contato" class="btn btn-primary" id="quizCta" data-track="quiz_cta">Agendar com esse contexto →</a>
+              <button type="button" class="btn btn-primary" id="quizBook" data-track="quiz_book" hidden>Escolher horário agora →</button>
+              <a href="#contato" class="btn btn-primary" id="quizCta" data-track="quiz_cta" data-alt-label="Prefiro escrever">Agendar com esse contexto →</a>
               <button type="button" class="btn btn-ghost" id="quizRestart">Refazer</button>
             </div>
+            <div class="quiz-cal" id="quizCal" hidden></div>
           </div>
 
           <div class="quiz-nav">

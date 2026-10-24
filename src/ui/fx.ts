@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import { t } from '../lib/i18n';
 
 const finePointer = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -26,14 +27,14 @@ export function initCursor() {
     if (e.pointerType !== 'mouse') return;
     dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
     document.documentElement.classList.add('cursor-on');
-    const t = e.target as Element;
-    const drag = t.closest('[data-cursor="drag"], .cases-track, .constellation');
-    const text = t.closest('input, textarea, select');
-    const link = t.closest('a, button, label, summary, [role="button"]');
+    const target = e.target as Element;
+    const drag = target.closest('[data-cursor="drag"], .cases-track, .constellation');
+    const text = target.closest('input, textarea, select');
+    const link = target.closest('a, button, label, summary, [role="button"]');
     ring.classList.toggle('is-drag', !!drag && !link);
     ring.classList.toggle('is-link', !!link);
     document.documentElement.classList.toggle('cursor-text', !!text);
-    label.textContent = drag && !link ? 'Arraste' : '';
+    label.textContent = drag && !link ? t('Arraste', 'Drag') : '';
   }, { passive: true });
   document.addEventListener('mouseleave', () => document.documentElement.classList.remove('cursor-on'));
   addEventListener('pointerdown', () => ring.classList.add('is-down'));

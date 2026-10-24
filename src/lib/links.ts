@@ -1,4 +1,5 @@
 import { site, whatsappUrl } from '../config';
+import { lang, t } from './i18n';
 
 /** Preenche todos os [data-link] a partir de src/config.ts. */
 export function applyLinks() {
@@ -14,7 +15,7 @@ export function applyLinks() {
     const href = map[a.dataset.link!];
     if (href) a.href = href;
   });
-  document.querySelectorAll<HTMLElement>('[data-availability]').forEach((el) => { el.textContent = site.availability; });
+  document.querySelectorAll<HTMLElement>('[data-availability]').forEach((el) => { el.textContent = site.availability[lang]; });
   document.querySelectorAll<HTMLElement>('[data-email-text]').forEach((el) => { el.textContent = site.email; });
   const year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
@@ -28,9 +29,9 @@ export function initCopyEmail(onCopy?: () => void) {
       try {
         await navigator.clipboard.writeText(site.email);
         btn.classList.add('copied');
-        if (hint) hint.textContent = 'Copiado ✓';
+        if (hint) hint.textContent = t('Copiado ✓', 'Copied ✓');
         onCopy?.();
-        setTimeout(() => { btn.classList.remove('copied'); if (hint) hint.textContent = 'Copiar'; }, 2200);
+        setTimeout(() => { btn.classList.remove('copied'); if (hint) hint.textContent = t('Copiar', 'Copy'); }, 2200);
       } catch {
         location.href = `mailto:${site.email}`;
       }

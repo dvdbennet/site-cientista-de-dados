@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import { t } from '../lib/i18n';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getLenis } from '../motion/smooth';
 
@@ -14,7 +15,7 @@ export function initMobileMenu() {
     if (next === open) return;
     open = next;
     btn.setAttribute('aria-expanded', String(open));
-    btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    btn.setAttribute('aria-label', open ? t('Fechar menu', 'Close menu') : t('Abrir menu', 'Open menu'));
     document.documentElement.classList.toggle('menu-open', open);
     if (open) {
       menu.hidden = false;

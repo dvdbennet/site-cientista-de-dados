@@ -1,3 +1,5 @@
+import { lang } from './lib/i18n';
+
 /**
  * Configuração central do site.
  * Troque os valores abaixo pelos dados reais do Felipe — todos os links,
@@ -9,9 +11,12 @@ export const site = {
   email: 'felipeffullana@gmail.com',
   /** Só números, com DDI + DDD. Ex.: 5511999999999 */
   whatsapp: '5561982800038',
-  /** Texto do selo verde no topo. Ex.: 'Disponível para novos projetos em novembro'. */
-  availability: 'Disponível para novos projetos',
-  whatsappMessage: 'Olá Felipe! Vim pelo site e quero conversar sobre um projeto de dados.',
+  /** Texto do selo verde no topo (PT e EN). Ex.: 'Disponível para novos projetos em novembro'. */
+  availability: { pt: 'Disponível para novos projetos', en: 'Available for new projects' },
+  whatsappMessage: {
+    pt: 'Olá Felipe! Vim pelo site e quero conversar sobre um projeto de dados.',
+    en: 'Hi Felipe! I found your website and would like to talk about a data project.',
+  },
   /** Usuário/evento do Cal.com. Ex.: 'felipefuck/diagnostico'. Vazio = mostra botão de e-mail. */
   calLink: '', // TODO: link do Cal.com
   linkedin: 'https://www.linkedin.com/', // TODO
@@ -34,5 +39,5 @@ export const formEndpoint = () => env.formEndpoint || `https://formsubmit.co/aja
 
 export const whatsappUrl = () =>
   site.whatsapp
-    ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`
+    ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage[lang])}`
     : `mailto:${site.email}`;
